@@ -124,10 +124,6 @@ STATICFILES_DIRS = [
     STATIC_ROOT,
 ]
 
-dotenv_file = os.path.join(BASE_DIR, ".env")
-if os.path.isfile(dotenv_file):
-    dotenv.load_dotenv(dotenv_file)
-
 django_heroku.settings(locals())
 
 del DATABASES['default']['OPTIONS']['sslmode']
@@ -157,3 +153,15 @@ logging.config.dictConfig({
         },
     },
 })
+
+# CELERY STUFF
+BROKER_URL=os.environ['REDIS_URL'],
+CELERY_RESULT_BACKEND=os.environ['REDIS_URL']
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Africa/Nairobi'
+
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
