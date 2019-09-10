@@ -4,3 +4,6 @@ from django.db import models
 
 class PageVisits(models.Model):
     count = models.IntegerField()
+
+class ScheduledTaskRunCount(models.Model):
+    count = models.IntegerField()

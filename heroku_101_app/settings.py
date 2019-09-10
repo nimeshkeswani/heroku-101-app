@@ -155,7 +155,9 @@ logging.config.dictConfig({
 dotenv_file = os.path.join(BASE_DIR, ".env")
 if os.path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
-    del DATABASES['default']['OPTIONS']['sslmode']
+    DATABASES['default'] = { 'ENGINE': 'django.db.backends.sqlite3', 'NAME': 'db.sqlite3' }
+    if 'OPTIONS' in DATABASES['default'] and 'sslmode' in DATABASES['default']['OPTIONS']:
+        del DATABASES['default']['OPTIONS']['sslmode']
 
 # CELERY STUFF
 BROKER_URL=os.environ['REDIS_URL'],
