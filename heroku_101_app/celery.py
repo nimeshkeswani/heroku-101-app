@@ -12,6 +12,14 @@ app = Celery('heroku_101_app')
 app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
+# Schedule
+app.conf.beat_schedule = {
+    'every-10-seconds': {  #name of the scheduler
+        'task': 'increment_scheduled_task_run_count',  # task name which we have created in tasks.py
+        'schedule': 10.0,   # set the period of running
+        'args': None  # set the args
+    },
+}
 
 @app.task(bind=True)
 def debug_task(self):
